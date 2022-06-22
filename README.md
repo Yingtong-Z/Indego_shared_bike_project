@@ -41,3 +41,40 @@ In 2021, there was a peak in number of rides in September when students were bac
   <img src="Graph/2021_Rides_Count_by_Bike_Type_Over_Time.png" width=100% height=100%>
 </p>
 
+### 3.2.	Time series exploratory analysis (2016-2021)
+Time series analysis can be used to forecast future data based on what we already know. There are four parts in time series data: trend, seasonality, cyclicality, and irregularity. We'll concentrate our investigation on the data's yearly trend and monthly change pattern, and build up ARIMA model for forecasting.
+
+Another thing to note is that we decided to utilize daily average trip duration (for 6 years) instead of data by hour to apply the prediction in time series analysis because we had such a vast dataset and visualization was problematic. 
+
+First, it is important to have our time series staionary to apply ARIMA model. So, at the beginning, we can have a quick look at the stationariy with simple line plot.
+
+<p align="center">
+  <img src="Graph/time_series.jpg" width=80% height=80%>
+</p>
+According to the below plot, the data does not appear to be trending, which means our data is stationary. For the next step, we'll test the autocorrelation to see if this series of data contains seasonality.
+
+The ACF plot shows that autocorrelation has declined from roughly 0.6 to nearly 0 and has a repetitive pattern, indicating that the data has a seasonality.
+
+<p align="center">
+  <img src="Graph/ACF.jpg" width=80% height=80%>
+</p>
+
+Then, we plot each year as a different line in the same plot, allowing us to compare year-by-year patterns. Although it is not that obvious, we can see that each year, there is more use of the Indego bike in the spring and summer, and less use in the winter, which supports our hypothesis that people are more likely to ride in warm weather. However, the month of May 2020 stands out in this graph, with an extraordinarily high total duration value. We looked for some information and suspect that the incident is tied to an activity that Indego was doing at the time. Indego announced a monthly pass discount with the price $5 on April 23, 2020, to assist individuals going out during the pandemic.
+
+<p align="center">
+  <img src="Graph/Lineplot_6yr_month_change.jpg" width=80% height=80%>
+</p>
+
+Next, we used boxplots to show the data to get a closer look at the yearly trend and seasonality. This set of boxplots show the conclusion of the yearly and monthly changes in total trip duration that we discussed earlier. 
+<p align="center">
+  <img src="Graph/Boxplot.jpg" width=80% height=80%>
+</p>
+
+## 4.	Feature Engineering
+### 4.1.	Feature Selection
+As we will build machine learning model with Indego 2021 trip dataset containing over 970,000 entries of data. We will build classification models to predict whether a bike ride is lower than or higher than or equals o average usage duration. We add a predicted variable 'above_average', which transforms the continuous values ‘duration’ into two categories, with 0 denoting a ride is under average and 1 denoting larger or equals to average duration.
+
+Based on our analysis, we will choose the statistical variables that might correlate with trip duration. We will exclude indexing or other variables such as latitude and longitude that have little relation with our predicted variable. Below is the list of features we selected:
+
+<sub>['plan_duration','trip_route_category','passholder_type','bike_type','start_time_month','start_time_hour','start_time_day','start_dayOfWeek','start_dayOfYear','temp','visibility','dew_point','feels_like','temp_min','temp_max','pressure','humidity','wind_speed','wind_deg','wind_gust',rain_1h','snow_1h','weather_description']
+<sub/>
