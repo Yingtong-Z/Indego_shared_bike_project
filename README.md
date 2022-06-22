@@ -16,3 +16,6 @@ Due to high memory used for large objects in the big data file, we downcasted th
 
 ## 3.	Exploratory Data Analysis
 ### 3.1.	Model descriptive statistics (2021) 
+The Indego 2021 trip dataset has 976,350 entries and 58 columns and each row indicates a trip with its attributes. A brief info of dataset is given in Table 1. As we can see, the majority of dataset is complete with few Nan values. A few columns with more than 50% missing values will be dropped in the feature engineer section.
+
+![](Graph/Picture1.png)
