@@ -2,6 +2,8 @@
 
 This is a report version of the analysis, please refer to the python notebook analysis in the file if interested :point_right:[notebook-analysis](Indego_Shared_Bike_Project.ipynb)
 
+Apart from that, we also made a ArcGIS storymap to illustrate Indego trip patterns via maps. Instead of doing maps with Python, ArcGIS is a powerful map-making software as a supplement to our analysis. Please feel free to browse our awesome immersive map through [here](https://storymaps.arcgis.com/stories/5738aa98018947ad801945f131254957).
+
 ## 1. Introduction
 Philadelphia introduced Indego as the city's newest mode of public transit in 2015. The Office of Transportation and Infrastructure Systems (OTIS) is in charge of planning and managing it. It has provided us with a great deal of convenience over the last few years. However, the initiative is still in its infancy, and there is opportunity for development. During peak hours, for example, users may find themselves without a bike to use or docks to return their bikes. We believe that a study of the usage pattern would be beneficial in helping to improve the service.
 
