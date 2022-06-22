@@ -145,18 +145,21 @@ To evaluate the model, we will adopt the following three approaches:
   -	Accuracy Metrics
 
 **Residuals**
+
 <p align="center">
   <img src="Graph/residual.jpg" width=80% height=80%>
 </p>
 Overall, the residual errors appear to be fine, with a near-zero mean, indicating that the model has a stable performance across time.
 
 **Actual vs. Fitted value**
+
 <p align="center">
   <img src="Graph/Actual&fitted.jpg" width=80% height=80%>
 </p>
 According to the plot，the predicted values match actual value pretty well, also showing the reliability of this model.
 
 **Accuracy Metrics**
+
 Although we seem to have a nice ARIMA model, but what about more concrete evidence for evaluating our model?
 Next, we chose three criteria to test the accuracy of the model:
   -	Correlation between the Actual and the Forecast (corr)
