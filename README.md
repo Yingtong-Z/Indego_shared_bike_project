@@ -5,12 +5,12 @@ This is a report version of the analysis, please refer to the python notebook an
 ## 1. Introduction
 Philadelphia introduced Indego as the city's newest mode of public transit in 2015. The Office of Transportation and Infrastructure Systems (OTIS) is in charge of planning and managing it. It has provided us with a great deal of convenience over the last few years. However, the initiative is still in its infancy, and there is opportunity for development. During peak hours, for example, users may find themselves without a bike to use or docks to return their bikes. We believe that a study of the usage pattern would be beneficial in helping to improve the service.
 
-In this analysis, we are interested in how long a bike trip will take in general, as well as what factors influence the length of the trip. In our analysis, we have two key points of focus. First, we'll use features such as trip type (whether it's a one-way or round-trip), user type (if the user has a membership), trip start and end times, and weather data to estimate journey duration. Second, we'll utilize time series analysis to predict journey duration in May 2022 based on the average time spent traveling on each day. Indego could utilize the information to improve their service and management if a pattern emerges.
+In this analysis, we are interested in how long a bike trip will take in general, as well as what factors influence the length of the trip. In our analysis, we have two key points of focus. **First, we'll use features such as trip type (whether it's a one-way or round-trip), user type (if the user has a membership), trip start and end times, and weather data to estimate journey duration. Second, we'll utilize time series analysis to predict journey duration in May 2022 based on the average time spent traveling on each day.** Indego could utilize the information to improve their service and management if a pattern emerges.
 
 ## 2.	Data Preprocessing
-In this analysis, the core dataset we will use is the anonymized Indego trip data shared by City of Philadelphia and Bicycle Transit Systems. The data is publicly available on Indego open data website. We used beautifulsoup to crawl 2019 to 2021 Indego trip zip files and read them into csv in python. In 2021 data, there are 976,350 rows of trip records with 15 columns with features such as duration, station, latitude and longitude of the start and end bike station. Entries for 2020 and 2019 are 751,991 and 772,663 respectively. Considering the size and possible similar characteristics of big data by year, we will focus our EDA and modeling on 2021 data with large enough entry. Then we will conduct time series analysis using 3-year data from 2019 to 2021.
+In this analysis, the core dataset we will use is the anonymized Indego trip data shared by City of Philadelphia and Bicycle Transit Systems. The data is publicly available on Indego open data [website](https://openweathermap.org/). We used beautifulsoup to crawl 2019 to 2021 Indego trip zip files and read them into csv in python. In 2021 data, there are 976,350 rows of trip records with 15 columns with features such as duration, station, latitude and longitude of the start and end bike station. Entries for 2020 and 2019 are 751,991 and 772,663 respectively. Considering the size and possible similar characteristics of big data by year, we will focus our EDA and modeling on 2021 data with large enough entry. Then we will conduct time series analysis using 3-year data from 2019 to 2021.
 
-To increase the robustness of our data, we combined the core Indego trip data with historical weather data from OpenWeather. In this weather data, we have hourly weather records from the last 5 years with 28 features including temperature, pressure, humidity, wind, rain, snow and so on. We merged the weather data with Indego trip data on the key of start time of a trip. To get more out of our data, we extracted the year, month, hour, day, day of week and day of year from the datetime of start time of a trip.
+To increase the robustness of our data, we combined the core Indego trip data with **historical weather data from OpenWeather**. In this weather data, we have hourly weather records from the last 5 years with 28 features including temperature, pressure, humidity, wind, rain, snow and so on. We merged the weather data with Indego trip data on the key of start time of a trip. To get more out of our data, we extracted the year, month, hour, day, day of week and day of year from the datetime of start time of a trip.
 
 Due to high memory used for large objects in the big data file, we downcasted the object type to category and also float64 to float32 to optimize the running ram. Memory mb dropped around 80% after downcasting.
 
@@ -18,7 +18,7 @@ Due to high memory used for large objects in the big data file, we downcasted th
 ### 3.1	Model descriptive statistics (2021) 
 The Indego 2021 trip dataset has 976,350 entries and 58 columns and each row indicates a trip with its attributes. A brief info of dataset is given in Table 1. As we can see, the majority of dataset is complete with few Nan values. A few columns with more than 50% missing values will be dropped in the feature engineer section.
 ![](Graph/Picture1.png)
-Duration, riding minute of a trip, is our main dependent variable and its logarithm distribution is plot with a histogram. It can be inferred that the dataset is slight skewed with outliers but still it falls in a normal distribution with the mean of 18.9. Therefore, the average time for a Indego bike trip in 2021 is around 19 minutes. 
+**Duration**, riding minute of a trip, is our main dependent variable and its logarithm distribution is plot with a histogram. It can be inferred that the dataset is slight skewed with outliers but still it falls in a normal distribution with the **mean of 18.9**. Therefore, the average time for a Indego bike trip in 2021 is around 19 minutes. 
 
 Indego share bike provides two types of biking, including electric and standard bike. We then breakdown duration by bike type and 15 minutes and lower takes up the majority of trip durations both for electric and standard bikes. It can be inferred that overall usage of standard bikes outnumber electric bikes yet there is little difference in usage of duration distribution in terms of bike types.
 
@@ -81,15 +81,15 @@ Based on our analysis, we will choose the statistical variables that might corre
 
 ## 5.	Classification Models
 
-In this session, we will predict whether a trip will be above average duration or not using classification models. Models will be trained using Apache Spark ML, a powerful distributed machine learning library. The reasons why we chose Spark ML are: 1) we are analyzing "big" data that requires heavy iterative computations on large dataset with around 92,0000 entries of data; 2) standard ML library such as Sklearn are slow in running, especially when running tree models; 3) distribute the computation into multiple machines instead of using one single high-end machine, which is extremely friendly to notebook running in a laptop with less computation capacity.
+In this session, we will predict whether a trip will be above average duration or not using classification models. Models will be trained using **Apache Spark ML**, a powerful distributed machine learning library. The reasons why we chose Spark ML are: 1) we are analyzing "big" data that requires heavy iterative computations on large dataset with around 92,0000 entries of data; 2) standard ML library such as Sklearn are slow in running, especially when running tree models; 3) distribute the computation into multiple machines instead of using one single high-end machine, which is extremely friendly to notebook running in a laptop with less computation capacity.
 
 ### 5.1	Model Selections
-In terms of model selections, we will first use traditional binary prediction model – logistic regression. The reason why we select logistic model is that it include regularization via L1/L2 penalty. L1/Lasso regularization can perform feature selection by shrinking the unimportant features to zero while L2/Ridge helps prevent overfitting by forcing weights to be small, but not making them exactly 0. The Elastic Net is a combination of L1/L2 regularization that seeks to balance two penalties by giving each a weight. So we will train four logistic models: model without any regularization, model with L1 regularization, model with L2 regularization and model with Elastic Net regularization to see which model performs the best.
+In terms of model selections, we will first use traditional binary prediction model – **logistic regression**. The reason why we select logistic model is that it includes regularization via L1/L2 penalty. L1/Lasso regularization can perform feature selection by shrinking the unimportant features to zero while L2/Ridge helps prevent overfitting by forcing weights to be small, but not making them exactly 0. The Elastic Net is a combination of L1/L2 regularization that seeks to balance two penalties by giving each a weight. **So we will train four logistic models: model without any regularization, model with L1 regularization, model with L2 regularization and model with Elastic Net regularization to see which model performs the best.**
 
-Then we also include a random forest tree model, a popular and robust ensemble tree method which work really well with most classification problem, and a Principal Component Analysis (PCA) to reduce the dimensions of the data and fit the lower dimensional data into logistic regression again. 
+Then we also include a **random forest tree model**, a popular and robust ensemble tree method which work really well with most classification problem, and a **Principal Component Analysis (PCA)** to reduce the dimensions of the data and fit the lower dimensional data into logistic regression again. 
 
 ### 5.2	Hyperparameters Tunning
-After training multiple classification models, we found that among the logistic regression models (with and without regularizations), random forest tree model, PCA model, logistic regression models yield better performance compared to others. 
+After training multiple classification models, we found that among the logistic regression models (with and without regularizations), random forest tree model, PCA model, **logistic regression models yield better performance compared to others.**
 So next step we want to tune the hyperparameters of the logistic regression model to see whether it can improve the performance. For the purpose of hyperparameter tuning we will consider using K-fold validation of 5 folds to tune the following parameters
   -	regParam :[0.01, 0.5, 2.0]
   -	lasticNetParam: [0, 1]
@@ -144,21 +144,21 @@ To evaluate the model, we will adopt the following three approaches:
   -	Actual vs. Fitted value
   -	Accuracy Metrics
 
-**Residuals**
+#### Residuals
 
 <p align="center">
   <img src="Graph/residual.jpg" width=80% height=80%>
 </p>
 Overall, the residual errors appear to be fine, with a near-zero mean, indicating that the model has a stable performance across time.
 
-**Actual vs. Fitted value**
+#### Actual vs. Fitted value
 
 <p align="center">
   <img src="Graph/Actual&fitted.jpg" width=80% height=80%>
 </p>
 According to the plot，the predicted values match actual value pretty well, also showing the reliability of this model.
 
-**Accuracy Metrics**
+#### Accuracy Metrics
 
 Although we seem to have a nice ARIMA model, but what about more concrete evidence for evaluating our model?
 Next, we chose three criteria to test the accuracy of the model:
