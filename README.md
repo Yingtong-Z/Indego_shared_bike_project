@@ -1,1 +1,1 @@
-# Indego_shared_bike_project
+# Indego-shared-bike-project
