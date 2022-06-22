@@ -21,6 +21,6 @@ The Indego 2021 trip dataset has 976,350 entries and 58 columns and each row ind
 Duration, riding minute of a trip, is our main dependent variable and its logarithm distribution is plot with a histogram. It can be inferred that the dataset is slight skewed with outliers but still it falls in a normal distribution with the mean of 18.9. Therefore, the average time for a Indego bike trip in 2021 is around 19 minutes. 
 
 Indego share bike provides two types of biking, including electric and standard bike. We then breakdown duration by bike type and 15 minutes and lower takes up the majority of trip durations both for electric and standard bikes. It can be inferred that overall usage of standard bikes outnumber electric bikes yet there is little difference in usage of duration distribution in terms of bike types.
+
 ![](Graph/2021 Ride by Minute Distribution.png)
 
-![](Graph/2021 Rides Duration Min and per Breakdown by Bike Type.png)
