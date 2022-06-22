@@ -22,5 +22,22 @@ Duration, riding minute of a trip, is our main dependent variable and its logari
 
 Indego share bike provides two types of biking, including electric and standard bike. We then breakdown duration by bike type and 15 minutes and lower takes up the majority of trip durations both for electric and standard bikes. It can be inferred that overall usage of standard bikes outnumber electric bikes yet there is little difference in usage of duration distribution in terms of bike types.
 
-![](Graph/2021 Ride by Minute Distribution.png)
+Indego share bike provides two types of biking, including electric and standard bike. We then breakdown duration by bike type and 15 minutes and lower takes up the majority of trip durations both for electric and standard bikes. It can be inferred that overall usage of standard bikes outnumber electric bikes yet there is little difference in usage of duration distribution in terms of bike types.
+<p align="center">
+  <img src="Graph/2021_Ride_by_Minute_Distribution.png" width=60% height=60%>
+</p>
+<p align="center">
+  <img src="Graph/2021_Rides_Duration_Min_and_per_Breakdown_by_Bike_Type.png" width=100% height=100%>
+</p>
+
+The bar plots below clearly show the seasonal patterns of Indego trip throughout the year. Summer and fall as are peak seasons for people riding bikes while winter and spring enjoy lower ride counts. 
+
+In 2021, there was a peak in number of rides in September when students were back in the city and people back from summer holiday, giving a spur in usage. It is noticeable that both standard and electric bikes have the same seasonal patterns throughout 2021 and in previous years. Compared to previous years, ride counts increased slightly in 2021 and especially in September. Apart from that, electric bikes witnessed a steady increase in usage from 2019 to 2021.
+
+<p align="center">
+  <img src="Graph/2019_2020_Rides_Count_by_Bike_Type_Over_Time.png" width=100% height=100%>
+</p>
+<p align="center">
+  <img src="Graph/2021_Rides_Count_by_Bike_Type_Over_Time.png" width=100% height=100%>
+</p>
 
